@@ -1,10 +1,13 @@
 customers = ["Linda", "Jack", "Zoran"]
-products = ["apple", "banana", "cake", "iceburst"]
+products = ["apple", "banana", "cake", "ice"]
 sellingPrice = [3.5, 6.82, 0, 000]
 stocks = [134, 52, 5, 0]
+data = {}
 
 
 def customer_name(n):
+    data[n] = [0, 0, 0, 0, 0]
+    print(data)
     if n in customers:
         print("Return customer!")
     else:
@@ -31,7 +34,7 @@ def check_quantity(quantity, prod_name):
 def print_details(cust_name, prod_name, quantity):
     print()
     index = products.index(prod_name)
-    if str(sellingPrice[index]) == "000" :
+    if sellingPrice[index] == 000:
         print("NOT AVAILABLE(HIDDEN PRODUCT)")
         return 0
     else:
@@ -64,15 +67,19 @@ def purchase(n):
         while f1 != 1:
             prod = input("Enter product name: ")
             f1 = product_name(prod)
+
         f1 = 0
+        idx = products.index(prod)
         while f1 != 1:
             unit = int(input("Enter quantity: "))
             f1 = check_quantity(unit, prod)
+        data[n][idx] += unit
         price = print_details(name, prod, unit)
         if price == 0:
             return price
         ans = float(ans) + float(price)
         print("Total price: $" + str(ans))
+        data[n][4] = ans
         f3 = input("Continue?(Y/N)")
         if f3 == 'N':
             customers.append(n)
@@ -106,6 +113,12 @@ def replenish_one():
                     flag1 = 1
 
 
+def show_data():
+    for x in data:
+        print(x, end=" ")
+        print(' '.join(map(str, data[x])))
+
+
 ex = 0
 while ex != 1:
     print("1 Show all the customers")
@@ -115,6 +128,7 @@ while ex != 1:
     print("5 Show inventory")
     print("6 Replenish in bulk")
     print("7 Replenish in one")
+    print("8 Show all the data")
     n = int(input())
     match n:
         case 1:
@@ -157,6 +171,7 @@ while ex != 1:
             replenish_bulk(n)
         case 7:
             replenish_one()
+        case 8:
+            show_data()
     print("Enter 0 for main menu, 1 to exit: ")
     ex = int(input())
-
